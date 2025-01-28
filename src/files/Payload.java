@@ -19,4 +19,13 @@ public class Payload {
 				+ "  \"language\": \"French-IN\"\r\n"
 				+ "}";
 	}
+	
+	public static String putPlaceBody(String placeID, String address) {
+		return "{\r\n"
+				+ "\"place_id\":\""+placeID+"\",\r\n"
+				+ "\"address\":\""+address+"\",\r\n"
+				+ "\"key\":\"qaclick123\"\r\n"
+				+ "}\r\n"
+				+ "";
+	}
 }
