@@ -1,6 +1,8 @@
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 
+import org.testng.Assert;
+
 import files.Payload;
 import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
@@ -28,7 +30,7 @@ public class Basics {
 		System.out.println(placeID.equals("8d2573bdf6ceec0e474c5f388fa917fb"));
 		
 		//8d2573bdf6ceec0e474c5f388fa917fb
-		String address = "70 Summer walk, USA, chachacha";
+		String address = "177A Bleecker Street in Manhattan, New York City";
 		
 		given().log().all().queryParams("key", "qaclick123")
 		.header("Content-Type", "application/json")
@@ -39,15 +41,14 @@ public class Basics {
 		String GETresponse = given().log().all()
 				.queryParams("key", "qaclick123")
 				.queryParam("place_id", placeID)
-		.header("Content-Type", "application/json")
 		.when().get("/maps/api/place/get/json")
 		.then().log().all().assertThat().statusCode(200)
 		.extract().response().asString();
 		
 		System.out.println("getRes: "+GETresponse);
 		JsonPath getJS = new JsonPath(GETresponse);
-		System.out.println(getJS.getString("address"));
-		System.out.println(getJS.getString("address").equals(address));
+
+		Assert.assertEquals(getJS.getString("address"), address);
 		
 	}
 
