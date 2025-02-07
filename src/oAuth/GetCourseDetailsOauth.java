@@ -4,8 +4,12 @@ import org.testng.annotations.Test;
 
 import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
+import pojo.GetCourse;
+import pojo.WebAutomation;
 
 import static io.restassured.RestAssured.given;
+
+import java.util.List;
 
 public class GetCourseDetailsOauth {
 	@Test
@@ -37,5 +41,20 @@ public class GetCourseDetailsOauth {
 				.when().get("https://rahulshettyacademy.com/oauthapi/getCourseDetails")
 				.then().log().all().extract().response().asString();
 		System.out.println(get_courseDetails_res);
+		
+				  
+				GetCourse gcRes = given().queryParams("access_token", authToken)
+				.when().get("https://rahulshettyacademy.com/oauthapi/getCourseDetails")
+				.as(GetCourse.class);
+				
+				System.out.println(gcRes.getLinkedIn());
+				
+				List<WebAutomation> wa = gcRes.getCourses().getWebAutomation();
+				int total = 0;
+				for(WebAutomation w : wa) {
+					System.out.println(w.getCourseTitle() +" = "+ w.getPrice());
+					total += Integer.parseInt(w.getPrice());
+				}
+				System.out.println("Total = "+total);
 	}
 }
